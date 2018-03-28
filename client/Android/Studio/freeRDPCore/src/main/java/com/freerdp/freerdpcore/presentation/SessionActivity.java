@@ -12,13 +12,11 @@ package com.freerdp.freerdpcore.presentation;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.UiModeManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -359,7 +357,8 @@ public class SessionActivity extends AppCompatActivity implements
         mClipboardManager.removeClipboardboardChangedListener(this);
 
         // free session
-        GlobalApp.freeSession(session.getInstance());
+        if (null != session)
+            GlobalApp.freeSession(session.getInstance());
 
         session = null;
     }

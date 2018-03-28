@@ -98,6 +98,7 @@ public abstract class BookmarkBaseGateway {
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SDCARD, bookmark.getAdvancedSettings().getRedirectSDCard());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SOUND, bookmark.getAdvancedSettings().getRedirectSound());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_MICROPHONE, bookmark.getAdvancedSettings().getRedirectMicrophone());
+        values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_RUTOKEN_SMARTCARDS, bookmark.getAdvancedSettings().getRedirectRutokenSmartcards());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_SECURITY, bookmark.getAdvancedSettings().getSecurity());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_CONSOLE_MODE, bookmark.getAdvancedSettings().getConsoleMode());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REMOTE_PROGRAM, bookmark.getAdvancedSettings().getRemoteProgram());
@@ -141,6 +142,7 @@ public abstract class BookmarkBaseGateway {
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SDCARD, bookmark.getAdvancedSettings().getRedirectSDCard());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SOUND, bookmark.getAdvancedSettings().getRedirectSound());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_MICROPHONE, bookmark.getAdvancedSettings().getRedirectMicrophone());
+        values.put(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_RUTOKEN_SMARTCARDS, bookmark.getAdvancedSettings().getRedirectRutokenSmartcards());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_SECURITY, bookmark.getAdvancedSettings().getSecurity());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_CONSOLE_MODE, bookmark.getAdvancedSettings().getConsoleMode());
         values.put(BookmarkDB.DB_KEY_BOOKMARK_REMOTE_PROGRAM, bookmark.getAdvancedSettings().getRemoteProgram());
@@ -268,6 +270,7 @@ public abstract class BookmarkBaseGateway {
         columns.add(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SDCARD);
         columns.add(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SOUND);
         columns.add(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_MICROPHONE);
+        columns.add(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_RUTOKEN_SMARTCARDS);
         columns.add(BookmarkDB.DB_KEY_BOOKMARK_SECURITY);
         columns.add(BookmarkDB.DB_KEY_BOOKMARK_CONSOLE_MODE);
         columns.add(BookmarkDB.DB_KEY_BOOKMARK_REMOTE_PROGRAM);
@@ -338,6 +341,7 @@ public abstract class BookmarkBaseGateway {
         bookmark.getAdvancedSettings().setRedirectSDCard(cursor.getInt(cursor.getColumnIndex(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SDCARD)) != 0);
         bookmark.getAdvancedSettings().setRedirectSound(cursor.getInt(cursor.getColumnIndex(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_SOUND)));
         bookmark.getAdvancedSettings().setRedirectMicrophone(cursor.getInt(cursor.getColumnIndex(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_MICROPHONE)) != 0);
+        bookmark.getAdvancedSettings().setRedirectRutokenSmartcards(cursor.getInt(cursor.getColumnIndex(BookmarkDB.DB_KEY_BOOKMARK_REDIRECT_RUTOKEN_SMARTCARDS)) != 0);
         bookmark.getAdvancedSettings().setSecurity(cursor.getInt(cursor.getColumnIndex(BookmarkDB.DB_KEY_BOOKMARK_SECURITY)));
         bookmark.getAdvancedSettings().setConsoleMode(cursor.getInt(cursor.getColumnIndex(BookmarkDB.DB_KEY_BOOKMARK_CONSOLE_MODE)) != 0);
         bookmark.getAdvancedSettings().setRemoteProgram(cursor.getString(cursor.getColumnIndex(BookmarkDB.DB_KEY_BOOKMARK_REMOTE_PROGRAM)));

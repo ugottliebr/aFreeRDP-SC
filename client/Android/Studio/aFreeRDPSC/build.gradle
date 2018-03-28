@@ -1,0 +1,50 @@
+/*
+ * Changed by Aktiv Co., 2018
+ */
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.3"
+
+    defaultConfig {
+        applicationId "com.freerdp.afreerdpsc"
+        minSdkVersion 19
+        targetSdkVersion 27
+        vectorDrawables.useSupportLibrary = true
+        versionCode = 12
+        versionName = rootProject.ext.versionName
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile project.hasProperty("keystorePath") ? file(project.property("keystorePath")) : null
+            storePassword project.hasProperty("keystorePass") ? project.property("keystorePass") : null
+            keyAlias project.hasProperty("keyAlias") ? project.property("keyAlias") : null
+            keyPassword project.hasProperty("keyPass") ? project.property("keyPass") : null
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            def hasSigningParameters = 
+                project.hasProperty("keystorePath") && project.property("keystorePath") != "" && \
+                project.hasProperty("keyAlias") && project.property("keyAlias") != "" && \
+                project.hasProperty("keystorePass") && project.hasProperty("keyPass")    
+            signingConfig hasSigningParameters ? signingConfigs.release : null
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            jniDebuggable true
+            renderscriptDebuggable true
+        }
+    }
+}
+
+dependencies {
+    compile project(':freeRDPCore')
+}

@@ -1,0 +1,31 @@
+To build aFreeRDP SC application you must have actual versions of JDK, Android NDK, Android SDK, Gradle installed.
+Follow the steps below.
+
+1. Download Rutoken SDK from https://www.rutoken.ru/developers/sdk/
+
+2. Place librtpcsc.so libraries for android-armv7a and android-arm64 from Rutoken SDK into ./external directory:
+  mkdir -p ./external/pcsc-android/android-armv7a-gcc/lib/dynamic/
+  cp ${RUTOKEN_SDK_PATH}/sdk/mobile/android/pcsc/android-armv7a-gcc/lib/librtpcsc.so \
+     ./external/pcsc-android/android-armv7a-gcc/lib/dynamic/librtpcsc.so
+  mkdir -p ./external/pcsc-android/android-arm64-gcc/lib/dynamic/
+  cp ${RUTOKEN_SDK_PATH}/sdk/mobile/android/pcsc/android-arm64-gcc/lib/librtpcsc.so \
+     ./external/pcsc-android/android-arm64-gcc/lib/dynamic/librtpcsc.so
+
+3. Run patches from ./patches directory:
+  patch -p0 < patches/*
+
+4. Set environment variables:
+  * ANDROID_NDK to contain path to Android NDK directory;
+  * ANDROID_HOME to contain path to Android SDK directory.
+
+5. Set following variables:
+  * TARGET -- either 'debug' or 'release';
+  * PATH_TO_KEYSTORE -- path to keystore containing key to sign application or leave the variable empty;
+  * KEYSTORE_PASSWORD -- password for the keystore or leave the variable empty;
+  * KEY_ALIAS -- alias of key to sign application or leave the variable empty;
+  * KEY_PASSWORD -- password for the key or leave the variable empty.
+
+5. Run script ./scripts/rutoken-build-android.sh:
+  ./scripts/rutoken-build-android.sh "${TARGET}" "${PATH_TO_KEYSTORE}" "${KEYSTORE_PASSWORD}" \
+                                     "${KEY_ALIAS}" "${KEY_PASSWORD}"
+  Resulting apk can be found in ./client/Android/Studio/aFreeRDP/build/outputs/apk/ directory.

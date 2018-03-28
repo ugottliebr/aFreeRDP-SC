@@ -37,9 +37,13 @@
  *
  * To make matters worse, pcsc-lite correctly defines
  * the data types on OS X, but not on other platforms.
+
+ * RtPcsc library uses the same data types on Android as
+ * pcsc-lite on OS X.
+
  */
 
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__ANDROID__)
 typedef unsigned int PCSC_DWORD;
 typedef PCSC_DWORD* PCSC_PDWORD, *PCSC_LPDWORD;
 typedef unsigned int PCSC_ULONG;

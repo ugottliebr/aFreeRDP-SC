@@ -1,34 +1,30 @@
-FreeRDP: A Remote Desktop Protocol Implementation
-=================================================
+aFreeRDP SC: RDP client for Android, supporting Rutoken smart card redirection
+==============================================================================
 
-FreeRDP is a free implementation of the Remote Desktop Protocol (RDP), released under the Apache license.
-Enjoy the freedom of using your software wherever you want, the way you want it, in a world where
-interoperability can finally liberate your computing experience.
-
-Resources
----------
-
-Project website: http://www.freerdp.com/
-Issue tracker: https://github.com/FreeRDP/FreeRDP/issues
-Sources: https://github.com/FreeRDP/FreeRDP/
-Downloads: https://pub.freerdp.com/releases/
-Wiki: https://github.com/FreeRDP/FreeRDP/wiki
-API documentation: https://pub.freerdp.com/api/
-
-IRC channel: #freerdp @ irc.freenode.net
-Mailing list: https://lists.sourceforge.net/lists/listinfo/freerdp-devel
-
-Microsoft Open Specifications
------------------------------
-
-Information regarding the Microsoft Open Specifications can be found at:
-http://www.microsoft.com/openspecifications/
-
-A list of reference documentation is maintained here:
-https://github.com/FreeRDP/FreeRDP/wiki/Reference-Documentation
+aFreeRDP SC is an Android application, implementing Remote Desktop Protocol (RDP). It is based on 
+the aFreeRDP application, released under Mozilla Public License 2.0, as a part of FreeRDP project 
+(licensed under Apache 2.0 license).
 
 Compilation
 -----------
 
-Instructions on how to get started compiling FreeRDP can be found on the wiki:
-https://github.com/FreeRDP/FreeRDP/wiki/Compilation
+Instructions on how to get started compiling aFreeRDP SC can be found in HOWTOBUILD.txt file.
+
+License
+-------
+
+The source code in this repository is licensed under the Apache License, Version 2.0 (the
+"License"), except for the files, in which a different license is stated in the file header.
+
+You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is
+distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+implied.
+
+See the License for the specific language governing permissions and limitations under the License.
+
+Feedback
+--------
+
+All feedback concerning aFreeRDP SC project can be sent to hotline@rutoken.ru.

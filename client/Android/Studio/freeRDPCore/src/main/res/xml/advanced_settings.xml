@@ -48,6 +48,9 @@
         </PreferenceScreen>
 
         <CheckBoxPreference
+            android:key="bookmark.redirect_rutoken_smartcards"
+            android:title="@string/settings_redirect_rutoken_smartcards" />
+        <CheckBoxPreference
             android:key="bookmark.redirect_sdcard"
             android:title="@string/settings_redirect_sdcard" />
         <com.freerdp.freerdpcore.utils.IntListPreference

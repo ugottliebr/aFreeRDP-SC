@@ -20,24 +20,26 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
 import com.freerdp.freerdpcore.R;
 import com.freerdp.freerdpcore.application.GlobalApp;
 import com.freerdp.freerdpcore.domain.BookmarkBase;
 import com.freerdp.freerdpcore.domain.ConnectionReference;
 import com.freerdp.freerdpcore.domain.ManualBookmark;
+import com.freerdp.freerdpcore.presentation.rutoken.RtServiceInstallDialog;
 import com.freerdp.freerdpcore.services.BookmarkBaseGateway;
 import com.freerdp.freerdpcore.services.LibFreeRDP;
 import com.freerdp.freerdpcore.utils.RDPFileParser;
+import com.freerdp.freerdpcore.utils.RutokenServicePackageHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class BookmarkActivity extends PreferenceActivity implements
-        OnSharedPreferenceChangeListener {
+        OnSharedPreferenceChangeListener, RtServiceInstallDialog.ActionHandlerAccess {
     public static final String PARAM_CONNECTION_REFERENCE = "conRef";
 
     private static final String TAG = "BookmarkActivity";
@@ -59,7 +61,7 @@ public class BookmarkActivity extends PreferenceActivity implements
     private static boolean settings_changed = false;
     private static boolean new_bookmark = false;
     private int current_preferences;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -399,6 +401,18 @@ public class BookmarkActivity extends PreferenceActivity implements
         advancedSettingsChanged(sharedPreferences, "bookmark.resolution_3g");
         advancedSettingsChanged(sharedPreferences, "bookmark.remote_program");
         advancedSettingsChanged(sharedPreferences, "bookmark.work_dir");
+        findPreference("bookmark.redirect_rutoken_smartcards").setOnPreferenceChangeListener(
+                new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        if ((Boolean) newValue &&
+                                !RutokenServicePackageHelper.isInstalledRutokenService(BookmarkActivity.this)) {
+                                RtServiceInstallDialog.newInstance(RtServiceInstallDialog.DialogType.INSTALL)
+                                        .show(getFragmentManager(), "rutoken_service_installation_dialog");
+                        }
+                        return true;
+                    }
+                });
     }
 
     private void advancedSettingsChanged(SharedPreferences sharedPreferences,
@@ -694,6 +708,29 @@ public class BookmarkActivity extends PreferenceActivity implements
             } else {
                 finishAndResetBookmark();
             }
+        }
+    }
+
+    @Override
+    public RtServiceInstallDialog.ActionHandler getRtServiceInstallDialogActionHandler(@NonNull RtServiceInstallDialog dialogFragment) {
+        return new RtServiceInstallDialogActionHandler();
+    }
+
+    /**
+     * Handles rutoken dialog clicks
+     */
+    private class RtServiceInstallDialogActionHandler implements RtServiceInstallDialog.ActionHandler {
+        @Override
+        public void onPositiveButtonClick() {
+            RutokenServicePackageHelper.installRutokenService(BookmarkActivity.this);
+        }
+
+        @Override
+        public void onNeutralButtonClick() {
+        }
+
+        @Override
+        public void onNegativeButtonClick() {
         }
     }
 }

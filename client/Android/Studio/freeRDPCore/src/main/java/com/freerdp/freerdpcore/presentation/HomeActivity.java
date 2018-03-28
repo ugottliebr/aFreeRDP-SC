@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,12 +41,15 @@ import com.freerdp.freerdpcore.domain.BookmarkBase;
 import com.freerdp.freerdpcore.domain.ConnectionReference;
 import com.freerdp.freerdpcore.domain.PlaceholderBookmark;
 import com.freerdp.freerdpcore.domain.QuickConnectBookmark;
+import com.freerdp.freerdpcore.presentation.rutoken.RtListDialog;
+import com.freerdp.freerdpcore.presentation.rutoken.RtServiceInstallDialog;
 import com.freerdp.freerdpcore.utils.BookmarkArrayAdapter;
+import com.freerdp.freerdpcore.utils.RutokenServicePackageHelper;
 import com.freerdp.freerdpcore.utils.SeparatedListAdapter;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements RtServiceInstallDialog.ActionHandlerAccess {
     private final static String ADD_BOOKMARK_PLACEHOLDER = "add_bookmark";
     private static final String TAG = "HomeActivity";
     private static final String PARAM_SUPERBAR_TEXT = "superbar_text";
@@ -114,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
 
                         Intent sessionIntent = new Intent(view.getContext(), SessionActivity.class);
                         sessionIntent.putExtras(bundle);
-                        startActivity(sessionIntent);
+                        startSessionActivity(refStr, sessionIntent);
 
                         // clear any search text
                         superBarEditText.setText("");
@@ -154,6 +158,26 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Starts Session Activity checking installation of Rutoken service
+     */
+    private void startSessionActivity(String refStr, Intent sessionIntent) {
+        boolean redirectFlag = false;
+        if (ConnectionReference.isManualBookmarkReference(refStr)) {
+            BookmarkBase bookmark = GlobalApp.getManualBookmarkGateway().findById(ConnectionReference.getManualBookmarkId(refStr));
+            redirectFlag = bookmark.getAdvancedSettings().getRedirectRutokenSmartcards();
+        }
+
+        if (redirectFlag && !RutokenServicePackageHelper.isInstalledRutokenService(HomeActivity.this)) {
+            Bundle dialogBundle = new Bundle();
+            dialogBundle.putParcelable(RtServiceInstallDialog.PARAM_SESSION_INTENT, sessionIntent);
+
+            RtServiceInstallDialog.newInstance(RtServiceInstallDialog.DialogType.INSTALL_ON_CONNECT, dialogBundle)
+                    .show(getFragmentManager(), "rutoken_service_installation_dialog");
+        } else {
+            startActivity(sessionIntent);
+        }
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -183,7 +207,7 @@ public class HomeActivity extends AppCompatActivity {
             Intent sessionIntent = new Intent(this, SessionActivity.class);
             sessionIntent.putExtras(bundle);
 
-            startActivity(sessionIntent);
+            startSessionActivity(refStr, sessionIntent);
             return true;
         } else if (itemId == R.id.bookmark_edit) {
             Bundle bundle = new Bundle();
@@ -309,9 +333,80 @@ public class HomeActivity extends AppCompatActivity {
         } else if (itemId == R.id.about) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             startActivity(aboutIntent);
+        } else if (itemId == R.id.rutoken) {
+            if (RutokenServicePackageHelper.isInstalledRutokenService(this)) {
+                RtListDialog.newInstance().show(getSupportFragmentManager(), "rutoken_list");
+            } else {
+                RtServiceInstallDialog.newInstance(RtServiceInstallDialog.DialogType.INSTALL)
+                        .show(getFragmentManager(), "rutoken_service_installation_dialog");
+            }
         }
 
         return true;
+    }
+
+    @Override
+    public RtServiceInstallDialog.ActionHandler getRtServiceInstallDialogActionHandler(
+            @NonNull RtServiceInstallDialog dialog) {
+        RtServiceInstallDialog.DialogType type =
+                RtServiceInstallDialog.DialogType.fromValue(dialog.getArguments().getInt(RtServiceInstallDialog.PARAM_DIALOG_TYPE));
+        switch (type) {
+            case INSTALL:
+                return new RtDialogActionHandler();
+            case INSTALL_ON_CONNECT:
+                return new RtDialogActionHandlerOnConnect(dialog);
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Handles rutoken dialog clicks
+     */
+    private class RtDialogActionHandler implements RtServiceInstallDialog.ActionHandler {
+        @Override
+        public void onPositiveButtonClick() {
+            RutokenServicePackageHelper.installRutokenService(HomeActivity.this);
+        }
+
+        @Override
+        public void onNeutralButtonClick() {
+        }
+
+        @Override
+        public void onNegativeButtonClick() {
+        }
+    }
+
+    private class RtDialogActionHandlerOnConnect implements RtServiceInstallDialog.ActionHandler {
+        RtDialogActionHandlerOnConnect(@NonNull RtServiceInstallDialog dialog) {
+            mDialog = dialog;
+        }
+        @Override
+        public void onPositiveButtonClick() {
+            RutokenServicePackageHelper.installRutokenService(HomeActivity.this);
+        }
+
+        @Override
+        public void onNeutralButtonClick() {
+        }
+
+        @Override
+        public void onNegativeButtonClick() {
+            Intent sessionIntent = mDialog.getArguments().getParcelable(RtServiceInstallDialog.PARAM_SESSION_INTENT);
+            if (null == sessionIntent)
+                return;
+            String refStr = sessionIntent.getStringExtra(BookmarkActivity.PARAM_CONNECTION_REFERENCE);
+            if (null != refStr && ConnectionReference.isManualBookmarkReference(refStr)) {
+                BookmarkBase bookmark = GlobalApp.getManualBookmarkGateway().findById(ConnectionReference.getManualBookmarkId(refStr));
+                bookmark.getAdvancedSettings().setRedirectRutokenSmartcards(false);
+                GlobalApp.getManualBookmarkGateway().update(bookmark);
+            }
+            startActivity(sessionIntent);
+        }
+
+        @NonNull
+        private final RtServiceInstallDialog mDialog;
     }
 
     private class SuperBarTextWatcher implements TextWatcher {

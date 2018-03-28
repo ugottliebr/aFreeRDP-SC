@@ -2,6 +2,10 @@
 
 NULL =
 
+DEB_HOST_ARCH=$(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+SANATIZE_ADDRESS = -DWITH_SANITIZE_ADDRESS=ON
+
 DEB_CMAKE_EXTRA_FLAGS :=  -DCMAKE_SKIP_RPATH=FALSE \
                           -DCMAKE_SKIP_INSTALL_RPATH=FALSE \
                           -DWITH_PULSE=ON \
@@ -20,7 +24,7 @@ DEB_CMAKE_EXTRA_FLAGS :=  -DCMAKE_SKIP_RPATH=FALSE \
                           -DCMAKE_INSTALL_PREFIX=/opt/freerdp-nightly/ \
                           -DCMAKE_INSTALL_INCLUDEDIR=include \
                           -DCMAKE_INSTALL_LIBDIR=lib \
-                          -DWITH_SANITIZE_ADDRESS=ON \
+                          $(SANATIZE_ADDRESS) \
                           $(NULL)
 
 %:

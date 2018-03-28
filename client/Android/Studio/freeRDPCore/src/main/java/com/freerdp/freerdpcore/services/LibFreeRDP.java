@@ -282,6 +282,10 @@ public class LibFreeRDP {
             args.add("/microphone");
         }
 
+        if (advanced.getRedirectRutokenSmartcards()) {
+            args.add("/smartcard:xxxx:xxxx");
+        }
+
         args.add("/cert-ignore");
         args.add("/log-level:" + debug.getDebugLevel());
         String[] arrayArgs = args.toArray(new String[args.size()]);

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Changed by Aktiv Co., 2018 -->
 <resources>
     <!-- Button labels -->
     <string name="yes">Yes</string>
@@ -13,6 +14,7 @@
     <string name="menu_help">Help</string>
     <string name="menu_new_bookmark">New Connection</string>
     <string name="menu_app_settings">Settings</string>
+    <string name="menu_rutoken" translatable="false">Rutoken</string>
     <!-- Bookmark menu items -->
     <string name="menu_title_bookmark">Connection</string>
     <string name="menu_connect">Connect</string>
@@ -121,6 +123,7 @@
     <string name="settings_cat_gateway">Gateway</string>
     <string name="settings_enable_gateway_settings">Enable Gateway</string>
     <string name="settings_gateway_settings">Gateway Settings</string>
+    <string name="settings_redirect_rutoken_smartcards">Redirect Rutoken Smartcards</string>
     <string name="settings_redirect_sdcard">Redirect SDCard</string>
     <string name="settings_redirect_sound">Redirect Sound</string>
     <string-array name="redirect_sound_array">
@@ -180,7 +183,7 @@
     <!-- Activity titles -->
     <string name="title_bookmark_settings">Connection Settings</string>
     <string name="title_application_settings">Settings</string>
-    <string name="title_home">aFreeRDP - FreeRDP for Android</string>
+    <string name="title_home">aFreeRDP SC</string>
     <string name="title_create_shortcut">RDP Connections</string>
     <string name="title_help">Help</string>
     <string name="title_about">About</string>
@@ -193,6 +196,11 @@
     <string name="info_reset_success">Deleted the certificate cache!</string>
     <string name="info_reset_failed">Failed to delete certificate cache!</string>
     <!-- Dialog strings -->
+    <string name="msg_install_rutoken_service">Rutoken Service is required. Install now?</string>
+    <string name="msg_install_rutoken_service_on_connect">Option \"Redirect Rutoken smartcards\" is set for this connection. Rutoken Service is required. Install now?</string>
+    <string name="install">Install</string>
+    <string name="ok_later">Later</string>
+    <string name="dont_redirect_smart_cards">Don\'t redirect</string>
     <string name="dlg_title_verify_certificate">Verify Certificate</string>
     <string name="dlg_msg_verify_certificate">The identity of the remote computer cannot be verified. Do you want to connect anyway?</string>
     <string name="dlg_title_credentials">Please enter your credentials</string>
@@ -200,7 +208,7 @@
     <string name="dlg_msg_create_shortcut">Shortcut name:</string>
     <string name="dlg_msg_connecting">Connecting &#8230;</string>
     <string name="dlg_msg_logging_in">Logging in &#8230;</string>
-    <string name="dlg_title_about">About aFreeRDP</string>
+    <string name="dlg_title_about">About aFreeRDP SC</string>
     <string name="dlg_title_create_bookmark_after_qc">Save Connection Settings?</string>
     <string name="dlg_msg_create_bookmark_after_qc">Your connection settings have not been saved! Do you want to save them?</string>
     <string name="dlg_title_save_bookmark">Save Connection?</string>
@@ -215,7 +223,7 @@
     <string name="preference_title_client">Client</string>
     <string name="preference_key_client_name" translatable="false">preference_key_client_name</string>
     <string name="preference_title_client_name">Client Name</string>
-    <string name="preference_default_client_name" translatable="false">aFreeRDP</string>
+    <string name="preference_default_client_name" translatable="false">aFreeRDP SC</string>
     <string name="preference_key_accept_certificates" translatable="false">security.accept_certificates</string>
     <string name="preference_key_security_clear_certificate_cache" translatable="false">security.clear_certificate_cache</string>
     <string name="preference_key_power_disconnect_timeout" translatable="false">power.disconnect_timeout</string>
@@ -249,4 +257,9 @@
 
     <string name="preference_key_h264_3g" translatable="false">bookmark.perf_gfx_h264</string>
     <string name="preference_key_h264" translatable="false">bookmark.perf_gfx_h264</string>
+    <string name="no_available_devices">No available devices</string>
+    <string name="close">Close</string>
+    <string name="avialable_devices">Available devices:</string>
+    <!-- Package names -->
+    <string name="rutoken_service_package" translatable="false">ru.rutoken</string>
 </resources>

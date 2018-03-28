@@ -1,3 +1,6 @@
+/*
+ * Changed by Aktiv Co., 2018
+ */
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 Properties properties = new Properties()
 File file = new File('release.properties')
@@ -8,7 +11,7 @@ if (file.canRead()) {
 def getVersionName = { ->
     def stdout = new ByteArrayOutputStream()
     exec {
-        commandLine 'git', 'describe', '--tags'
+        commandLine 'git', 'describe', '--tags', '--long'
         standardOutput = stdout
     }
     return stdout.toString().trim()
@@ -19,8 +22,6 @@ ext {
 
     println '----------------- Project configuration -------------------'
     println 'VERSION_NAME:       ' + versionName
-    println 'RELEASE_STORE_FILE: '+ RELEASE_STORE_FILE
-    println 'RELEASE_KEY_ALIAS:  '+ RELEASE_KEY_ALIAS
     println '-----------------------------------------------------------'
 }
 

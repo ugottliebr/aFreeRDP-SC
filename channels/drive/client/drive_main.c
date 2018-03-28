@@ -440,7 +440,7 @@ static UINT drive_process_irp_query_volume_information(DRIVE_DEVICE* drive,
         IRP* irp)
 {
 	UINT32 FsInformationClass;
-	wStream* output = irp->output;
+	wStream* output = NULL;
 	char* volumeLabel = {"FREERDP"};
 	char* diskType = {"FAT32"};
 	WCHAR* outStr = NULL;
@@ -453,6 +453,8 @@ static UINT drive_process_irp_query_volume_information(DRIVE_DEVICE* drive,
 
 	if (!drive || !irp)
 		return ERROR_INVALID_PARAMETER;
+
+	output = irp->output;
 
 	if (Stream_GetRemainingLength(irp->input) < 4)
 		return ERROR_INVALID_DATA;
@@ -743,7 +745,7 @@ static UINT drive_process_irp(DRIVE_DEVICE* drive, IRP* irp)
 	return error;
 }
 
-static void* drive_thread_func(void* arg)
+static DWORD WINAPI drive_thread_func(LPVOID arg)
 {
 	IRP* irp;
 	wMessage message;
@@ -788,11 +790,11 @@ static void* drive_thread_func(void* arg)
 	}
 
 fail:
-	if (error && drive->rdpcontext)
+	if (error && drive && drive->rdpcontext)
 		setChannelError(drive->rdpcontext, error, "drive_thread_func reported an error");
 
-	ExitThread((DWORD)error);
-	return NULL;
+	ExitThread(error);
+	return error;
 }
 
 /**
@@ -947,7 +949,7 @@ static UINT drive_register_drive_path(PDEVICE_SERVICE_ENTRY_POINTS pEntryPoints,
 			goto out_error;
 		}
 
-		if (!(drive->thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) drive_thread_func, drive,
+		if (!(drive->thread = CreateThread(NULL, 0, drive_thread_func, drive,
 		                                   CREATE_SUSPENDED, NULL)))
 		{
 			WLog_ERR(TAG, "CreateThread failed!");

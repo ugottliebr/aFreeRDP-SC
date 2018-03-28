@@ -1,2 +1,2 @@
 include ':freeRDPCore'
-include ':aFreeRDP'
+include ':aFreeRDPSC'

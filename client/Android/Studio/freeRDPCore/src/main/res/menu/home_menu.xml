@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Changed by Aktiv Co., 2018 -->
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/newBookmark"
         android:icon="@drawable/icon_menu_add"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/menu_new_bookmark" />
     <item
         android:id="@+id/appSettings"
         android:icon="@drawable/icon_menu_settings"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/menu_app_settings" />
     <item
         android:id="@+id/help"
         android:icon="@drawable/icon_menu_help"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/menu_help" />
     <item
         android:id="@+id/about"
         android:icon="@drawable/icon_menu_about"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/menu_about" />
+    <item
+        android:id="@+id/rutoken"
+        android:icon="@drawable/icon_menu_rutoken_token"
+        app:showAsAction="always"
+        android:title="@string/menu_rutoken" />
 </menu>

@@ -43,23 +43,8 @@ public class AboutActivity extends AppCompatActivity {
         StringBuilder total = new StringBuilder();
 
         String filename = "about_phone.html";
-        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            filename = "about.html";
-        }
-        Locale def = Locale.getDefault();
-        String prefix = def.getLanguage().toLowerCase(def);
-
-        String dir = prefix + "_about_page/";
+        String dir = "about_page/";
         String file = dir + filename;
-        InputStream is;
-        try {
-            is = getAssets().open(file);
-            is.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Missing localized asset " + file, e);
-            dir = "about_page/";
-            file = dir + filename;
-        }
 
         try {
             BufferedReader r = new BufferedReader(new InputStreamReader(getAssets().open(file)));

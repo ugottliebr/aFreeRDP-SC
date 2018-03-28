@@ -1,4 +1,5 @@
 #!/bin/bash
+# Changed by Aktiv Co., 2018
 
 JPEG_TAG=master
 OPENH264_TAG=master
@@ -97,7 +98,7 @@ do
                 --src $BUILD_SRC/jpeg --dst $BUILD_DST \
                 --ndk $ANDROID_NDK \
                 --arch $ARCH \
-		--target $NDK_TARGET \
+                --target $NDK_TARGET \
                 --tag $JPEG_TAG
         fi
         CMAKE_CMD_ARGS="$CMAKE_CMD_ARGS -DWITH_JPEG=ON"
@@ -112,7 +113,7 @@ do
                 --src $BUILD_SRC/openh264 --dst $BUILD_DST \
                 --ndk $ANDROID_NDK \
                 --arch $ARCH \
-		--target $NDK_TARGET \
+                --target $NDK_TARGET \
                 --tag $OPENH264_TAG
         fi
         CMAKE_CMD_ARGS="$CMAKE_CMD_ARGS -DWITH_OPENH264=ON"
@@ -121,13 +122,18 @@ do
     fi
     if [ $WITH_OPENSSL -ne 0 ];
     then
-        if [ $BUILD_DEPS -ne 0 ];
+        if [ $OPENSSL_AS_BINARY_DEPENDENCY -ne 0 ];
+        then
+            common_run bash $SCRIPT_PATH/android-bindep-openssl.sh \
+                --dst $BUILD_DST \
+                --arch $ARCH
+        elif [ $BUILD_DEPS -ne 0 ];
         then
             common_run bash $SCRIPT_PATH/android-build-openssl.sh \
                 --src $BUILD_SRC/openssl --dst $BUILD_DST \
                 --ndk $ANDROID_NDK \
                 --arch $ARCH \
-		--target $NDK_TARGET \
+                --target $NDK_TARGET \
                 --tag $OPENSSL_TAG
         fi
     fi

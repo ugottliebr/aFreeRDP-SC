@@ -270,6 +270,7 @@ public class BookmarkBase implements Parcelable, Cloneable {
         editor.putString("bookmark.remote_program",
                 advancedSettings.getRemoteProgram());
         editor.putString("bookmark.work_dir", advancedSettings.getWorkDir());
+        editor.putBoolean("bookmark.redirect_rutoken_smartcards", advancedSettings.getRedirectRutokenSmartcards());
         editor.putBoolean("bookmark.console_mode",
                 advancedSettings.getConsoleMode());
 
@@ -354,6 +355,7 @@ public class BookmarkBase implements Parcelable, Cloneable {
         advancedSettings.setSecurity(sharedPrefs.getInt("bookmark.security", 0));
         advancedSettings.setRemoteProgram(sharedPrefs.getString("bookmark.remote_program", ""));
         advancedSettings.setWorkDir(sharedPrefs.getString("bookmark.work_dir", ""));
+        advancedSettings.setRedirectRutokenSmartcards(sharedPrefs.getBoolean("bookmark.redirect_rutoken_smartcards", false));
         advancedSettings.setConsoleMode(sharedPrefs.getBoolean("bookmark.console_mode", false));
 
         debugSettings.setAsyncChannel(sharedPrefs.getBoolean("bookmark.async_channel", true));
@@ -819,6 +821,7 @@ public class BookmarkBase implements Parcelable, Cloneable {
         private boolean consoleMode;
         private String remoteProgram;
         private String workDir;
+        private boolean redirectRutokenSmartcards;
 
         public AdvancedSettings() {
             init();
@@ -837,6 +840,7 @@ public class BookmarkBase implements Parcelable, Cloneable {
             consoleMode = parcel.readInt() == 1;
             remoteProgram = parcel.readString();
             workDir = parcel.readString();
+            redirectRutokenSmartcards = parcel.readInt() == 1;
         }
 
         private void init() {
@@ -850,6 +854,7 @@ public class BookmarkBase implements Parcelable, Cloneable {
             consoleMode = false;
             remoteProgram = "";
             workDir = "";
+            redirectRutokenSmartcards = false;
         }
 
         private void validate() {
@@ -957,6 +962,14 @@ public class BookmarkBase implements Parcelable, Cloneable {
             this.workDir = workDir;
         }
 
+        public boolean getRedirectRutokenSmartcards() {
+            return  redirectRutokenSmartcards;
+        }
+
+        public void setRedirectRutokenSmartcards(boolean redirect) {
+            this.redirectRutokenSmartcards = redirect;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -974,6 +987,7 @@ public class BookmarkBase implements Parcelable, Cloneable {
             out.writeInt(consoleMode ? 1 : 0);
             out.writeString(remoteProgram);
             out.writeString(workDir);
+            out.writeInt(redirectRutokenSmartcards ? 1 : 0);
         }
     }
 }

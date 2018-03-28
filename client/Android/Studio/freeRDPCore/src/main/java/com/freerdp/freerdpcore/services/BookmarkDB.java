@@ -65,6 +65,7 @@ public class BookmarkDB extends SQLiteOpenHelper {
     static final String DB_KEY_BOOKMARK_REDIRECT_SDCARD = "redirect_sdcard";
     static final String DB_KEY_BOOKMARK_REDIRECT_SOUND = "redirect_sound";
     static final String DB_KEY_BOOKMARK_REDIRECT_MICROPHONE = "redirect_microphone";
+    static final String DB_KEY_BOOKMARK_REDIRECT_RUTOKEN_SMARTCARDS = "redirect_rutoken_smartcards";
     static final String DB_KEY_BOOKMARK_SECURITY = "security";
     static final String DB_KEY_BOOKMARK_REMOTE_PROGRAM = "remote_program";
     static final String DB_KEY_BOOKMARK_WORK_DIR = "work_dir";
@@ -261,6 +262,7 @@ public class BookmarkDB extends SQLiteOpenHelper {
         bookmarkValues.put(DB_KEY_BOOKMARK_REDIRECT_SDCARD, 0);
         bookmarkValues.put(DB_KEY_BOOKMARK_REDIRECT_SOUND, 0);
         bookmarkValues.put(DB_KEY_BOOKMARK_REDIRECT_MICROPHONE, 0);
+        bookmarkValues.put(DB_KEY_BOOKMARK_REDIRECT_RUTOKEN_SMARTCARDS, 0);
         bookmarkValues.put(DB_KEY_BOOKMARK_SECURITY, 0);
         bookmarkValues.put(DB_KEY_BOOKMARK_REMOTE_PROGRAM, "");
         bookmarkValues.put(DB_KEY_BOOKMARK_WORK_DIR, "");
@@ -306,6 +308,7 @@ public class BookmarkDB extends SQLiteOpenHelper {
                         + DB_KEY_BOOKMARK_REDIRECT_SDCARD + " INTEGER DEFAULT 0, "
                         + DB_KEY_BOOKMARK_REDIRECT_SOUND + " INTEGER DEFAULT 0, "
                         + DB_KEY_BOOKMARK_REDIRECT_MICROPHONE + " INTEGER DEFAULT 0, "
+                        + DB_KEY_BOOKMARK_REDIRECT_RUTOKEN_SMARTCARDS + " INTEGER DEFAULT 0, "
                         + DB_KEY_BOOKMARK_SECURITY + " INTEGER, "
                         + DB_KEY_BOOKMARK_REMOTE_PROGRAM + " TEXT, "
                         + DB_KEY_BOOKMARK_WORK_DIR + " TEXT, "
